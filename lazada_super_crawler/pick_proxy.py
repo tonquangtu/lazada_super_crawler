@@ -15,12 +15,12 @@ class PickProxySpider(scrapy.Spider):
         proxies_data = response.xpath(proxy_xpath)
 
         for i, proxy in enumerate(proxies_data):
-            ip = proxy.xpath(".//td[1]/abbr/@title").extract()[0]
-            port = proxy.xpath(".//td[2]/a/text()").extract()[0]
+            ip = proxy.xpath(".//td[1]/abbr/@title").extract()
+            port = proxy.xpath(".//td[2]/a/text()").extract()
 
-            if ip and port:
-                ip = ip.strip()
-                port = port.strip()
+            if ip and port and len(ip) > 0 and len(port) > 0:
+                ip = ip[0].strip()
+                port = port[0].strip()
 
                 if len(ip) > 5 and len(port) > 1:
                     yield {"ip_port": "%s:%s" % (ip, port)}

@@ -6,7 +6,7 @@ class ProductListSpider(scrapy.Spider):
     name = 'product_list_spider'
     start_urls = ['https://www.lazada.vn/dien-thoai-di-dong/?page=1']
 
-    def __init__(self, from_page=1, to_page=10, base_url='https://www.lazada.vn/dien-thoai-di-dong/?'):
+    def __init__(self, from_page=1, to_page=200, base_url='https://www.lazada.vn/dien-thoai-di-dong/?'):
         self.products = []
         self.from_page = from_page
         self.current_page = from_page
