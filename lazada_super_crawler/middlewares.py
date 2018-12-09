@@ -127,8 +127,8 @@ class CustomHttpProxyMiddleware(object):
 
     def use_proxy(self, request):
         """
-        using direct download for depth <= 2
-        using proxy with probability 0.3
+        using direct download for depth <= 5
+        using proxy with probability 0.6
         """
         if "depth" in request.meta and int(request.meta['depth']) <= 2:
             return False
