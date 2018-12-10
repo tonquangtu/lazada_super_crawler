@@ -29,4 +29,4 @@ class PickProxySpider(scrapy.Spider):
                 break
 
 
-# scrapy runspider pick_proxy.py -o new_proxy.json
+# scrapy runspider lazada_super_crawler/pick_proxy.py -o new_proxy.json

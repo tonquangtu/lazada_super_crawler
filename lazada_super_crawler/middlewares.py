@@ -9,6 +9,8 @@ from scrapy import signals
 from scrapy import log
 from proxy import PROXIES
 from agents import AGENTS
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 import random
 
@@ -133,7 +135,7 @@ class CustomHttpProxyMiddleware(object):
         if "depth" in request.meta and int(request.meta['depth']) <= 2:
             return False
         i = random.randint(1, 10)
-        return i <= 5
+        return i <= 11
 
 
 """
@@ -146,3 +148,27 @@ class CustomUserAgentMiddleware(object):
     def process_request(self, request, spider):
         agent = random.choice(AGENTS)
         request.headers['User-Agent'] = agent
+        x5sec_cookie = '7b22617365727665722d6c617a6164613b32223a2264336332343136613061346434653665623866343836393532643166386432614349717a75654146454e7a526a4f472f794f625a63773d3d227d'
+        request.cookies = [{'name': 'x5sec', 'value': x5sec_cookie, 'domain': '.lazada.vn'}]
+
+
+# add js middileware , if meta have js tag
+# need to install phantomjs
+class JSMiddleware(object):
+    def process_request(self, request, spider):
+        print '>>>>>>>>>>>>>>'
+        print request.meta
+
+        # if request.meta.get('js'): # you probably want a conditional trigger
+        driver = webdriver.PhantomJS()
+        driver.get(request.url)
+        body = driver.page_source
+
+        # https: // selenium - python.readthedocs.io / locating - elements.html
+        f = open('data','w')
+        print body
+        f.write(body)
+        f.closed
+
+        return HtmlResponse(driver.current_url, body=body, encoding='utf-8', request=request)
+        # return
